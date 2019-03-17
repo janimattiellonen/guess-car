@@ -2,24 +2,32 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import carService from './service/car-service';
+import Quiz from './components/Quiz';
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cars: carService.getCars(),
+    };
+  }
+
+  nextCar() {
+    this.setState(() => ({
+      cars: carService.getCars(),
+    }));
+  }
+
   render() {
+    const { cars } = this.state;
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div>
+          <Quiz status={null} choices={cars} next={() => this.nextCar()} />
+        </div>
       </div>
     );
   }
